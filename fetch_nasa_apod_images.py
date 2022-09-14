@@ -14,6 +14,8 @@ def fetch_apod(token, count=5):
 
     response = requests.get('https://api.nasa.gov/planetary/apod',
                             params=params)
+    response.raise_for_status()
+
     for obj in response.json():
         download_image(obj['url'], path="images/apods")
 

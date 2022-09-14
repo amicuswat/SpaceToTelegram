@@ -24,6 +24,7 @@ def fetch_spacex_launch_imgs(launch_id=None):
 
     response = requests.get(
         f"https://api.spacexdata.com/v5/launches/{launch_id}")
+    response.raise_for_status()
 
     urls = response.json()['links']['flickr']['original']
 
