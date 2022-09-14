@@ -27,9 +27,6 @@ def download_image(url, path="images/misc"):
         file.write(response.content)
 
 
-
-
-
 def fetch_nasa_epic_img(token):
     params = {
         "api_key": token
