@@ -27,22 +27,6 @@ def download_image(url, path="images/misc"):
         file.write(response.content)
 
 
-def fetch_spacex_last_launch():
-    response = requests.get("https://api.spacexdata.com/v5/launches")
-    launches_with_images = []
-    for obj in response.json():
-        if obj['links']['flickr']['original']:
-            launches_with_images.append(obj)
-
-    last_launch_id = launches_with_images.pop()['id']  
-    response = requests.get(f"https://api.spacexdata.com/v5/launches/{last_launch_id}")
-    
-    urls = response.json()['links']['flickr']['original']
-
-    for url in urls:
-        download_image(url)
-
-
 def fetch_apod(token, count=30):
 
     params = {
