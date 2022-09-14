@@ -27,16 +27,7 @@ def download_image(url, path="images/misc"):
         file.write(response.content)
 
 
-def fetch_apod(token, count=30):
 
-    params = {
-        "api_key": token,
-        "count": count
-    }
-    
-    response = requests.get('https://api.nasa.gov/planetary/apod', params=params)
-    for obj in response.json():
-        download_image(obj['url'], path="images/apods")
 
 
 def fetch_nasa_epic_img(token):
