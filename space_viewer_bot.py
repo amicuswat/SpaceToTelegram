@@ -1,14 +1,12 @@
 import os
-from os import walk
 import random
 import time
-
-from image_processing import download_image
+import argparse
 
 import telegram
 from PIL import Image
 from dotenv import load_dotenv
-from telegram import InputMediaPhoto, InputMediaDocument
+from telegram import InputMediaDocument
 
 
 def get_all_images(directory):
@@ -41,24 +39,32 @@ def make_image_smaller(image_path, max_size):
 
 
 if __name__ == "__main__":
-
     load_dotenv()
     token = os.getenv('TG_TOKEN')
     channel_id = os.getenv('TG_CHANNEL_ID')
 
     MAX_IMG_SIZE = 20971520
+    interval = 4
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--interval",
+                        help="Set interval to send photos in hours",
+                        type=int)
+    args = parser.parse_args()
+
+    if args.interval:
+        interval = args.interval
 
     bot = telegram.Bot(token=token)
 
     all_images = get_all_images("images")
-
-    count = 5
 
     while True:
         if all_images:
             random.shuffle(all_images)
         else:
             all_images = get_all_images("images")
+
         image_path = all_images.pop()
 
         if os.path.getsize(image_path) >= MAX_IMG_SIZE:
@@ -66,15 +72,7 @@ if __name__ == "__main__":
 
         image = InputMediaDocument(
             media=open(image_path, 'rb'))
+
         bot.send_media_group(chat_id=channel_id, media=[image])
 
-        count -= 1
-        if count <= 0: break
-        time.sleep(5)
-
-
-
-
-# bot.send_message(chat_id=channel_id, text="Logem impsum test2")
-# image = InputMediaDocument(media=open('images/apods/earthrise_lo1.gif', 'rb'))
-
+        time.sleep(interval * 3600)
