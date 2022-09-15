@@ -1,10 +1,10 @@
-import os
 import argparse
-
-from image_processing import download_image
+import os
 
 import requests
 from dotenv import load_dotenv
+
+from image_processing import download_image
 
 
 def get_last_date_with_photos(params):
@@ -20,7 +20,8 @@ def fetch_nasa_epic_img(token, date=None):
         "api_key": token
     }
 
-    if not date: date = get_last_date_with_photos(params)
+    if not date:
+        date = get_last_date_with_photos(params)
 
     response = requests.get(
         f"https://api.nasa.gov/EPIC/api/natural/date/{date}",
@@ -44,8 +45,8 @@ if __name__ == "__main__":
     token = os.getenv('NASA_API_KEY')
 
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--date", help="Enter desired date to fetch photos in format: YYYY-MM-DD")
+    parser.add_argument("--date", help="Enter desired date "
+                                       "to fetch photos in format: YYYY-MM-DD")
     args = parser.parse_args()
 
     if args.date:

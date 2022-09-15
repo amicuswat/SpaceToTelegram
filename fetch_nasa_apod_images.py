@@ -1,10 +1,11 @@
-import os
 import argparse
+import os
+
+import requests
 from dotenv import load_dotenv
 
 from image_processing import download_image
 
-import requests
 
 def fetch_apod(token, count=5):
     params = {
