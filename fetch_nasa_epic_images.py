@@ -47,10 +47,8 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--date", help="Enter desired date "
-                                       "to fetch photos in format: YYYY-MM-DD")
+                                       "to fetch photos in format: YYYY-MM-DD",
+                        default=None)
     args = parser.parse_args()
 
-    if args.date:
-        fetch_nasa_epic_img(token, date=args.date)
-    else:
-        fetch_nasa_epic_img(token)
+    fetch_nasa_epic_img(token, date=args.date)

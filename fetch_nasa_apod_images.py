@@ -29,10 +29,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--count", help="How many pictures of the day to download")
+        "--count", help="How many pictures of the day to download", default=5)
     args = parser.parse_args()
 
-    if args.count:
-        fetch_apod(token, count=args.count)
-    else:
-        fetch_apod(token)
+    fetch_apod(token, count=args.count)

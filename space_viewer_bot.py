@@ -44,16 +44,12 @@ if __name__ == "__main__":
     channel_id = os.environ['TG_CHANNEL_ID']
 
     MAX_IMG_SIZE = 20971520
-    interval = 4
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--interval",
                         help="Set interval to send photos in hours",
-                        type=int)
+                        type=int, default=4)
     args = parser.parse_args()
-
-    if args.interval:
-        interval = args.interval
 
     bot = telegram.Bot(token=token)
 
@@ -75,4 +71,4 @@ if __name__ == "__main__":
 
         bot.send_media_group(chat_id=channel_id, media=[image])
 
-        time.sleep(interval * 3600)
+        time.sleep(args.interval * 3600)
