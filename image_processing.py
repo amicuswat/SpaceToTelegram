@@ -12,7 +12,9 @@ def get_file_extention(url):
     return extention
 
 
-def download_image(url, path="images/misc"):
+def download_image(url, path=None):
+    if not path:
+        path = os.path.join("images", "misc")
     Path(path).mkdir(parents=True, exist_ok=True)
 
     parsed_url = urlparse(url)

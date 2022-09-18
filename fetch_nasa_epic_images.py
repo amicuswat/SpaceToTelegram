@@ -16,6 +16,8 @@ def get_last_date_with_photos(params):
 
 
 def fetch_nasa_epic_img(token, date=None):
+    forder = os.path.join("images", "nasa_epic")
+
     params = {
         "api_key": token
     }
@@ -37,7 +39,7 @@ def fetch_nasa_epic_img(token, date=None):
                     f"{year}/{month}/{day}/png/{img}.png?api_key={token}"
         print(image_url)
 
-        download_image(image_url, "images/nasa_epic")
+        download_image(image_url, path=forder)
 
 
 if __name__ == "__main__":

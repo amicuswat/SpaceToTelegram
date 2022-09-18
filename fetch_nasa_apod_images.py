@@ -12,13 +12,14 @@ def fetch_apod(token, count=5):
         "api_key": token,
         "count": count
     }
+    folder = os.path.join("images", "apods")
 
     response = requests.get('https://api.nasa.gov/planetary/apod',
                             params=params)
     response.raise_for_status()
 
     for obj in response.json():
-        download_image(obj['url'], path="images/apods")
+        download_image(obj['url'], path=folder)
 
 
 if __name__ == "__main__":

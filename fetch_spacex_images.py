@@ -1,4 +1,5 @@
 import argparse
+import os
 
 import requests
 
@@ -16,6 +17,7 @@ def get_last_launch_id():
 
 
 def fetch_spacex_launch_imgs(launch_id=None):
+    folder = os.path.join("images", "spaceX")
 
     if not launch_id:
         launch_id = get_last_launch_id()
@@ -27,7 +29,7 @@ def fetch_spacex_launch_imgs(launch_id=None):
     urls = response.json()['links']['flickr']['original']
 
     for url in urls:
-        download_image(url, "images/spaceX")
+        download_image(url, path=folder)
 
 
 if __name__ == "__main__":
