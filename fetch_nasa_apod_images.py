@@ -24,7 +24,7 @@ def fetch_apod(token, count=5):
 
 if __name__ == "__main__":
     load_dotenv()
-    token = os.getenv('NASA_API_KEY')
+    token = os.environ['NASA_API_KEY']
 
     parser = argparse.ArgumentParser()
     parser.add_argument(

@@ -44,7 +44,7 @@ def fetch_nasa_epic_img(token, date=None):
 
 if __name__ == "__main__":
     load_dotenv()
-    token = os.getenv('NASA_API_KEY')
+    token = os.environ['NASA_API_KEY']
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--date", help="Enter desired date "

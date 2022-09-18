@@ -40,8 +40,8 @@ def make_image_smaller(image_path, max_size):
 
 if __name__ == "__main__":
     load_dotenv()
-    token = os.getenv('TG_TOKEN')
-    channel_id = os.getenv('TG_CHANNEL_ID')
+    token = os.environ['TG_TOKEN']
+    channel_id = os.environ['TG_CHANNEL_ID']
 
     MAX_IMG_SIZE = 20971520
     interval = 4
