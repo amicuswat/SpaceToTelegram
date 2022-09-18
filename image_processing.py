@@ -1,4 +1,6 @@
 import os
+import random
+from datetime import datetime
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -17,8 +19,11 @@ def download_image(url, path=None):
         path = os.path.join("images", "misc")
     Path(path).mkdir(parents=True, exist_ok=True)
 
-    parsed_url = urlparse(url)
-    filename = os.path.basename(parsed_url.path)
+    hash = random.getrandbits(128)
+
+    filename = "%032x" % hash
+    extension = get_file_extention(url)
+    filename = filename + extension
     filename = Path(path, filename)
 
     response = requests.get(url)

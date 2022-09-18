@@ -19,7 +19,8 @@ def fetch_apod(token, count=5):
     response.raise_for_status()
 
     for obj in response.json():
-        download_image(obj['url'], path=folder)
+        if obj['media_type'] == 'image':
+            download_image(obj['url'], path=folder)
 
 
 if __name__ == "__main__":
