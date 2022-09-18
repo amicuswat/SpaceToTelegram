@@ -14,7 +14,7 @@ def get_file_extention(url):
     return extention
 
 
-def download_image(url, path=None):
+def download_image(url, path=None, params=None):
     if not path:
         path = os.path.join("images", "misc")
     Path(path).mkdir(parents=True, exist_ok=True)
@@ -26,7 +26,7 @@ def download_image(url, path=None):
     filename = filename + extension
     filename = Path(path, filename)
 
-    response = requests.get(url)
+    response = requests.get(url, params=params)
     response.raise_for_status()
 
     with open(filename, "wb") as file:

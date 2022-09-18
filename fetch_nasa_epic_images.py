@@ -36,10 +36,9 @@ def fetch_nasa_epic_img(token, date=None):
 
     for img in image_names:
         image_url = f"https://api.nasa.gov/EPIC/archive/natural/" \
-                    f"{year}/{month}/{day}/png/{img}.png?api_key={token}"
-        print(image_url)
+                    f"{year}/{month}/{day}/png/{img}.png"
 
-        download_image(image_url, path=forder)
+        download_image(image_url, path=forder, params=params)
 
 
 if __name__ == "__main__":
