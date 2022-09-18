@@ -9,10 +9,8 @@ def get_last_launch_id():
     response = requests.get("https://api.spacexdata.com/v5/launches")
     response.raise_for_status()
 
-    launches_with_images = []
-    for obj in response.json():
-        if obj['links']['flickr']['original']:
-            launches_with_images.append(obj)
+    launches_with_images = [obj for obj in response.json()
+                            if obj['links']['flickr']['original']]
 
     return launches_with_images.pop()['id']
 
