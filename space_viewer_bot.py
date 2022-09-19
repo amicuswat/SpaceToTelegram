@@ -27,13 +27,12 @@ def make_image_smaller(image_path, max_size):
 
     ratio = max_size/os.path.getsize(image_path)
 
-    image = Image.open(image_path)
+    with Image.open(image_path) as image:
+        new_width = int(image.width * ratio)
+        new_height = int(image.height * ratio)
 
-    new_width = int(image.width * ratio)
-    new_height = int(image.height * ratio)
-
-    image.thumbnail((new_width, new_height))
-    image.save(image_path)
+        image.thumbnail((new_width, new_height))
+        image.save(image_path)
 
     return image_path
 
@@ -44,11 +43,12 @@ if __name__ == "__main__":
     channel_id = os.environ['TG_CHANNEL_ID']
 
     MAX_IMG_SIZE = 20971520
+    interval_hours = 4
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--interval",
                         help="Set interval to send photos in hours",
-                        type=int, default=4)
+                        type=int, default=interval_hours)
     args = parser.parse_args()
 
     bot = telegram.Bot(token=token)
@@ -66,9 +66,12 @@ if __name__ == "__main__":
         if os.path.getsize(image_path) >= MAX_IMG_SIZE:
             image_path = make_image_smaller(image_path, MAX_IMG_SIZE)
 
+        with open(image_path, 'rb') as file:
+            media = file.read()
+
         image = InputMediaDocument(
-            media=open(image_path, 'rb'))
+            media=media)
 
         bot.send_media_group(chat_id=channel_id, media=[image])
 
-        time.sleep(args.interval * 3600)
+        time.sleep(args.interval)
