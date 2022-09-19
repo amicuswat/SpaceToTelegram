@@ -7,6 +7,17 @@ import telegram
 from dotenv import load_dotenv
 from PIL import Image
 from telegram import InputMediaDocument
+from telegram.error import RetryAfter, NetworkError
+from requests import ConnectionError, ConnectTimeout
+
+
+def is_should_sleep(is_first_try):
+    if is_first_try:
+        is_first_try = False
+        time.sleep(60)
+    else:
+        is_first_try = True
+    return is_first_try
 
 
 def get_all_images(directory):
@@ -40,6 +51,7 @@ if __name__ == "__main__":
     load_dotenv()
     token = os.environ['TG_TOKEN']
     channel_id = os.environ['TG_CHANNEL_ID']
+    is_error_once = False
 
     MAX_IMG_SIZE = 20971520
     interval_hours = 4
@@ -71,6 +83,19 @@ if __name__ == "__main__":
         image = InputMediaDocument(
             media=media)
 
-        bot.send_media_group(chat_id=channel_id, media=[image])
+        try:
+            bot.send_media_group(chat_id=channel_id, media=[image])
+        except NetworkError:
+            is_error_once = is_should_sleep(is_error_once)
+            continue
+        except RetryAfter:
+            time.sleep(60)
+            continue
+        except ConnectionError:
+            is_error_once = is_should_sleep(is_error_once)
+            continue
+        except ConnectTimeout:
+            is_error_once = is_should_sleep(is_error_once)
+            continue
 
         time.sleep(args.interval * 3600)
