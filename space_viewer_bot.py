@@ -13,8 +13,7 @@ def get_all_images(directory):
     images_tree = list(os.walk(directory))
 
     all_images = []
-    while images_tree:
-        elm = images_tree.pop()
+    for elm in images_tree:
         path, subdirs, filenames = elm
         if filenames and not subdirs:
             for name in filenames:
@@ -74,4 +73,4 @@ if __name__ == "__main__":
 
         bot.send_media_group(chat_id=channel_id, media=[image])
 
-        time.sleep(args.interval)
+        time.sleep(args.interval * 3600)
