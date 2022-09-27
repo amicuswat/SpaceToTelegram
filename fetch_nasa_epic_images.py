@@ -1,5 +1,6 @@
 import argparse
 import os
+from datetime import datetime
 
 import requests
 from dotenv import load_dotenv
@@ -25,14 +26,18 @@ def fetch_nasa_epic_img(token, date=None):
     if not date:
         date = get_last_date_with_photos(params)
 
+    date = datetime.strptime(date, "%Y-%m-%d").date()
+
+    year = date.strftime("%Y")
+    month = date.strftime("%m")
+    day = date.strftime("%d")
+
     response = requests.get(
         f"https://api.nasa.gov/EPIC/api/natural/date/{date}",
         params=params)
     response.raise_for_status()
 
     image_names = [obj['image'] for obj in response.json()]
-
-    year, month, day = date.split("-")
 
     for img in image_names:
         image_url = f"https://api.nasa.gov/EPIC/archive/natural/" \
