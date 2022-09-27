@@ -43,7 +43,7 @@ def fetch_nasa_epic_img(token, date=None):
         image_url = f"https://api.nasa.gov/EPIC/archive/natural/" \
                     f"{year}/{month}/{day}/png/{img}.png"
 
-        download_image(image_url, path=folder, params=params)
+        download_image(image_url, img_folder=folder, params=params)
 
 
 if __name__ == "__main__":

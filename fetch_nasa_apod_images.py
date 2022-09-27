@@ -20,7 +20,7 @@ def fetch_apod(token, count=5):
 
     for obj in response.json():
         if obj['media_type'] == 'image':
-            download_image(obj['url'], path=folder)
+            download_image(obj['url'], img_folder=folder)
 
 
 if __name__ == "__main__":

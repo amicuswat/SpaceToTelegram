@@ -14,17 +14,21 @@ def get_file_extension(url):
     return extension
 
 
-def download_image(url, path=None, params=None):
-    if not path:
-        path = os.path.join("images", "misc")
-    Path(path).mkdir(parents=True, exist_ok=True)
+def get_filename(url, img_folder):
+    if not img_folder:
+        img_folder = os.path.join("images", "misc")
+    Path(img_folder).mkdir(parents=True, exist_ok=True)
 
-    hash = random.getrandbits(128)
+    name_hash = random.getrandbits(128)
 
-    filename = "%032x" % hash
+    filename = "%032x" % name_hash
     extension = get_file_extension(url)
     filename = f"{filename}{extension}"
-    filename = Path(path, filename)
+    return Path(img_folder, filename)
+
+
+def download_image(url, img_folder=None, params=None):
+    filename = get_filename(url, img_folder)
 
     response = requests.get(url, params=params)
     response.raise_for_status()

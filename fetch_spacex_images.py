@@ -29,7 +29,7 @@ def fetch_spacex_launch_imgs(launch_id=None):
     urls = response.json()['links']['flickr']['original']
 
     for url in urls:
-        download_image(url, path=folder)
+        download_image(url, img_folder=folder)
 
 
 if __name__ == "__main__":
