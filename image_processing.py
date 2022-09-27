@@ -23,7 +23,7 @@ def download_image(url, path=None, params=None):
 
     filename = "%032x" % hash
     extension = get_file_extention(url)
-    filename = filename + extension
+    filename = f"{filename}{extension}"
     filename = Path(path, filename)
 
     response = requests.get(url, params=params)
