@@ -7,11 +7,11 @@ from urllib.parse import urlparse
 import requests
 
 
-def get_file_extention(url):
+def get_file_extension(url):
     parsed_url = urlparse(url)
     filename = os.path.basename(parsed_url.path)
-    filename, extention = os.path.splitext(filename)
-    return extention
+    filename, extension = os.path.splitext(filename)
+    return extension
 
 
 def download_image(url, path=None, params=None):
@@ -22,7 +22,7 @@ def download_image(url, path=None, params=None):
     hash = random.getrandbits(128)
 
     filename = "%032x" % hash
-    extension = get_file_extention(url)
+    extension = get_file_extension(url)
     filename = f"{filename}{extension}"
     filename = Path(path, filename)
 
