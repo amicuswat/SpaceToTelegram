@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 from PIL import Image
 from telegram import InputMediaDocument
 from telegram.error import RetryAfter, NetworkError
-from requests import ConnectionError, ConnectTimeout
 
 
 def is_should_sleep(is_first_try):
@@ -85,17 +84,11 @@ if __name__ == "__main__":
 
         try:
             bot.send_media_group(chat_id=channel_id, media=[image])
-        except NetworkError:
+        except NetworkError as ex:
             is_error_once = is_should_sleep(is_error_once)
             continue
         except RetryAfter:
             time.sleep(60)
-            continue
-        except ConnectionError:
-            is_error_once = is_should_sleep(is_error_once)
-            continue
-        except ConnectTimeout:
-            is_error_once = is_should_sleep(is_error_once)
             continue
 
         time.sleep(args.interval * 3600)
